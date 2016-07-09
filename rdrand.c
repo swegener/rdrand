@@ -30,18 +30,18 @@ int rdrand_fill_array(uint64_t* array, int size) {
       "top_of_rdrand_loop%=:"
       "jecxz end_of_rdrand_loop%= ;\n"   // jump if ecx (size) == 0
 
-      "rdrand %1 ;\n"                    // Generate random value
+      "rdrand %3 ;\n"                    // Generate random value
       "adc $0, %0 ;\n"                   // Check if successul
 
-      "mov %1, (%2) ;\n "                // Store value in array
+      "mov %3, (%2) ;\n "                // Store value in array
       "add $8, %2 ;\n "                  // Move array to next spot
 
-      "dec %4 ;\n"                       // Decrement size
+      "dec %1 ;\n"                       // Decrement size
       "jmp top_of_rdrand_loop%= ;\n"
 
       "end_of_rdrand_loop%=:\n"
-    : "=r" (successes), "=r" (temp), "=r"(array)
-    : "0" (successes), "c" (size), "2"(array)
+    : "=r" (successes), "=c" (size), "=r" (array), "=r" (temp)
+    : "0" (successes), "1" (size), "2" (array)
     );
 
   return (int)successes;
