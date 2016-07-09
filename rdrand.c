@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
   }
 
   int blocks = 0;
-  int blocks_left = arguments.block_count;
+  uint64_t blocks_left = arguments.block_count;
   int round_blocks = 0;
 #define MAX_round_blocks 16
   uint64_t array[MAX_round_blocks];
